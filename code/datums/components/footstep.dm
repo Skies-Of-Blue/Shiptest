@@ -47,7 +47,7 @@
 		return
 
 	if(LM.body_position == LYING_DOWN) //play crawling sound if we're lying
-		playsound(T, 'sound/effects/footstep/crawl1.ogg', 15 * volume, falloff_distance = 1)
+		playsound(LM, 'sound/effects/footstep/crawl1.ogg', 15 * volume, falloff_distance = 1)
 		return
 
 	if(iscarbon(LM))
@@ -71,11 +71,13 @@
 /datum/component/footstep/proc/play_simplestep()
 	SIGNAL_HANDLER
 
+	var/mob/living/LM = parent
+
 	var/turf/open/T = prepare_step()
 	if(!T)
 		return
 	if(isfile(footstep_sounds) || istext(footstep_sounds))
-		playsound(T, footstep_sounds, volume, falloff_distance = 1)
+		playsound(LM, footstep_sounds, volume, falloff_distance = 1)
 		return
 	var/turf_footstep
 	switch(footstep_type)
@@ -89,7 +91,7 @@
 			turf_footstep = T.footstep
 	if(!turf_footstep)
 		return
-	playsound(T, pick(footstep_sounds[turf_footstep][1]), footstep_sounds[turf_footstep][2] * volume, TRUE, footstep_sounds[turf_footstep][3] + e_range, falloff_distance = 1)
+	playsound(LM, pick(footstep_sounds[turf_footstep][1]), footstep_sounds[turf_footstep][2] * volume, TRUE, footstep_sounds[turf_footstep][3] + e_range, falloff_distance = 1)
 
 /datum/component/footstep/proc/play_humanstep()
 	SIGNAL_HANDLER
@@ -103,15 +105,18 @@
 	var/feetCover = (H.wear_suit && (H.wear_suit.body_parts_covered & FEET)) || (H.w_uniform && (H.w_uniform.body_parts_covered & FEET))
 
 	if(H.shoes || feetCover) //are we wearing shoes
-		playsound(T, pick(GLOB.footstep[T.footstep][1]),
+		var/mob/living/LM = parent
+		playsound(LM, pick(GLOB.footstep[T.footstep][1]),
 			GLOB.footstep[T.footstep][2] * volume,
 			TRUE,
 			GLOB.footstep[T.footstep][3] + e_range, falloff_distance = 1)
 	else
 		if(H.dna.species.special_step_sounds)
-			playsound(T, pick(H.dna.species.special_step_sounds), 50, TRUE, falloff_distance = 1)
+			var/mob/living/LM = parent
+			playsound(LM, pick(H.dna.species.special_step_sounds), 50, TRUE, falloff_distance = 1)
 		else
-			playsound(T, pick(GLOB.barefootstep[T.barefootstep][1]),
+			var/mob/living/LM = parent
+			playsound(LM, pick(GLOB.barefootstep[T.barefootstep][1]),
 				GLOB.barefootstep[T.barefootstep][2] * volume,
 				TRUE,
 				GLOB.barefootstep[T.barefootstep][3] + e_range, falloff_distance = 1)

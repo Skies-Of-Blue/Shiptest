@@ -44,11 +44,11 @@
 
 
 /// proc that adds and removes blindness overlays when necessary
-/mob/proc/update_blindness()
+/mob/proc/update_blindness(overlay = /atom/movable/screen/fullscreen/blind)
 	switch(stat)
 		if(CONSCIOUS, SOFT_CRIT)
 			if(HAS_TRAIT(src, TRAIT_BLIND) || eye_blind)
-				throw_alert("blind", /atom/movable/screen/alert/blind)
+				throw_alert("blind", overlay)
 				do_set_blindness(TRUE)
 			else
 				do_set_blindness(FALSE)
@@ -59,11 +59,14 @@
 
 
 ///Proc that handles adding and removing the blindness overlays.
-/mob/proc/do_set_blindness(now_blind)
+/mob/proc/do_set_blindness(now_blind, overlay = /atom/movable/screen/fullscreen/blind)
 	if(now_blind)
-		overlay_fullscreen("blind", /atom/movable/screen/fullscreen/blind)
+		overlay_fullscreen("blind", overlay)
 		// You are blind why should you be able to make out details like color, only shapes near you
 		add_client_colour(/datum/client_colour/monochrome/blind)
+		var/datum/component/blind_sense/B = GetComponent(/datum/component/blind_sense)
+		if(!B && !QDELING(src) && !QDELETED(src))
+			AddComponent(/datum/component/blind_sense)
 		ADD_TRAIT(src, TRAIT_EYESCLOSED, STAT_TRAIT)
 		update_body()
 	else
@@ -72,6 +75,8 @@
 		remove_client_colour(/datum/client_colour/monochrome/blind)
 		REMOVE_TRAIT(src, TRAIT_EYESCLOSED, STAT_TRAIT)
 		update_body()
+		var/datum/component/blind_sense/B = GetComponent(/datum/component/blind_sense)
+		B?.RemoveComponent()
 
 
 /**

@@ -50,6 +50,8 @@ falloff_distance - Distance at which falloff begins. Sound is at peak volume (in
 	if (!turf_source)
 		return
 
+	SEND_GLOBAL_SIGNAL(COMSIG_GLOB_SOUND_PLAYED, source, soundin)
+
 	//allocate a channel if necessary now so its the same for everyone
 	channel = channel || SSsounds.random_available_channel()
 

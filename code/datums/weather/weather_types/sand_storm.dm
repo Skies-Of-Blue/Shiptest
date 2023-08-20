@@ -43,4 +43,4 @@
 		return
 	L.adjustBruteLoss(3)
 	if(!L.is_eyes_covered())
-		L.blind_eyes(3)
+		L.adjust_blindness(3)

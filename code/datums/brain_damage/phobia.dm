@@ -119,7 +119,7 @@
 		if(3)
 			to_chat(owner, "<span class='warning'>You shut your eyes in terror!</span>")
 			owner.Jitter(5)
-			owner.blind_eyes(10)
+			owner.adjust_blindness(10)
 		if(4)
 			owner.dizziness += 10
 			owner.confused += 10

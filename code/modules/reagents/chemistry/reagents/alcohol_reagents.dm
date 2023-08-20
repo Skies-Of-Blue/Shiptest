@@ -2335,7 +2335,7 @@ All effects don't start immediately, but rather get worse over time; the rate is
 				new /datum/hallucination/hudscrew(C)
 		if(100 to INFINITY)
 			if(prob(10) && !C.eye_blind)
-				C.blind_eyes(6)
+				C.adjust_blindness(6)
 				to_chat(C, "<span class='userdanger'>Your vision fades as your eyes are outlined in black!</span>")
 			else
 				C.Dizzy(20)

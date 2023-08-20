@@ -296,7 +296,7 @@
 			if(prob(5))
 				victim.emote("scream")
 			victim.blur_eyes(5) // 10 seconds
-			victim.blind_eyes(3) // 6 seconds
+			victim.adjust_blindness(3) // 6 seconds
 			victim.confused = max(M.confused, 5) // 10 seconds
 			victim.Knockdown(3 SECONDS)
 			victim.add_movespeed_modifier(/datum/movespeed_modifier/reagent/pepperspray)
@@ -604,7 +604,7 @@
 		else
 			if(!M.eye_blurry)
 				to_chat(M, "<span class='warning'>Tears well up in your eyes!</span>")
-			M.blind_eyes(2)
+			M.adjust_blindness(2)
 			M.blur_eyes(5)
 	..()
 
@@ -614,7 +614,7 @@
 		M.blur_eyes(4)
 		if(prob(10))
 			to_chat(M, "<span class='warning'>Your eyes sting!</span>")
-			M.blind_eyes(2)
+			M.adjust_blindness(2)
 
 
 /datum/reagent/consumable/nutriment/stabilized

@@ -457,7 +457,7 @@
 		user.dropItemToGround(src, TRUE)
 		user.Dizzy(30)
 		user.Paralyze(100)
-		user.blind_eyes(30)
+		user.adjust_blindness(30)
 	else
 		return
 

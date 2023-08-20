@@ -32,6 +32,8 @@
 	var/lighting_alpha
 	var/no_glasses
 	var/damaged	= FALSE	//damaged indicates that our eyes are undergoing some level of negative effect
+	///the type of overlay we use for this eye's blind effect
+	var/atom/movable/screen/fullscreen/blind/blind_type
 
 /obj/item/organ/eyes/Insert(mob/living/carbon/M, special = FALSE, drop_if_replaced = FALSE, initialising)
 	. = ..()
@@ -80,7 +82,7 @@
 	if(damage > 20)
 		damaged = TRUE
 		if((organ_flags & ORGAN_FAILING))
-			C.become_blind(EYE_DAMAGE)
+			C.become_blind(EYE_DAMAGE, blind_type)
 		else if(damage > 30)
 			C.overlay_fullscreen("eye_damage", /atom/movable/screen/fullscreen/impaired, 2)
 		else

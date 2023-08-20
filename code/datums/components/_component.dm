@@ -497,19 +497,24 @@
  * Arguments:
  * * datum/component/target Target datum to transfer to
  */
+datum/component/proc/RemoveComponent()
+	if(!parent)
+		return
+	var/datum/old_parent = parent
+	PreTransfer()
+	_RemoveFromParent()
+	SEND_SIGNAL(old_parent, COMSIG_COMPONENT_REMOVING, src)
+
 /datum/proc/TakeComponent(datum/component/target)
-	if(!target || target.parent == src)
+	if(!target)
 		return
 	if(target.parent)
-		target.ClearFromParent()
+		target.RemoveComponent()
 	target.parent = src
-	var/result = target.PostTransfer()
-	switch(result)
-		if(COMPONENT_INCOMPATIBLE)
-			var/c_type = target.type
-			qdel(target)
-			CRASH("Incompatible [c_type] transfer attempt to a [type]!")
-
+	if(target.PostTransfer() == COMPONENT_INCOMPATIBLE)
+		var/c_type = target.type
+		qdel(target)
+		CRASH("Incompatible [c_type] transfer attempt to a [type]!")
 	if(target == AddComponent(target))
 		target._JoinParent()
 
